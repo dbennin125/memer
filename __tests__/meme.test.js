@@ -5,7 +5,7 @@ const app = require('../lib/app');
 const Meme = require('../lib/models/Meme');
 const { prepare } = require('../data-helper/data-helper');
 
-describe('memer routes', () => {
+describe('meme routes', () => {
 
   it('creates a meme via POST', async() => {
     return request(app)
