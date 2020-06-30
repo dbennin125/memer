@@ -45,16 +45,19 @@ describe('memer routes', () => {
       });
   });
 
-  // it('updates a meme by ID via PATCH', async() => {
-  //   const meme = prepare(await Meme.findOne());
+  it('updates a meme by ID via PATCH', async() => {
+    const meme = prepare(await Meme.findOne());
     
-  //   return request(app)
-  //     .patch(`/api/v1/memes/${meme._id}`)
-  //     .send({ top: 'whatever' })
-  //     .then(res => {
-  //       expect(res.body).toEqual(meme);
-  //     });
-  // });
+    return request(app)
+      .patch(`/api/v1/memes/${meme._id}`)
+      .send({ top: 'whatever' })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...meme,
+          top: 'whatever' 
+        });
+      });
+  });
 
 
 });
