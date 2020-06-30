@@ -3,8 +3,9 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 const Meme = require('../lib/models/Meme');
+const { prepare } = require('../data-helper/data-helper');
 
-describe('memer routes', () => {
+describe('meme routes', () => {
 
   it('creates a meme via POST', async() => {
     return request(app)
@@ -22,6 +23,49 @@ describe('memer routes', () => {
           bottom: 'bottom string'
         });
       });
+  });
 
+  it('gets all memes via GET', async() => {
+    const memes = prepare(await Meme.find());
+    
+    return request(app)
+      .get('/api/v1/memes')
+      .then(res => {
+        expect(res.body).toEqual(memes);
+      });
+  });
+
+  it('gets a meme by ID via GET', async() => {
+    const meme = prepare(await Meme.findOne());
+    
+    return request(app)
+      .get(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual(meme);
+      });
+  });
+
+  it('updates a meme by ID via PATCH', async() => {
+    const meme = prepare(await Meme.findOne());
+    
+    return request(app)
+      .patch(`/api/v1/memes/${meme._id}`)
+      .send({ top: 'whatever' })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...meme,
+          top: 'whatever' 
+        });
+      });
+  });
+
+  it('deletes a meme by ID via DELETE', async() => {
+    const deletedMeme = prepare(await Meme.findOne());
+    
+    return request(app)
+      .delete(`/api/v1/memes/${deletedMeme._id}`)
+      .then(res => {
+        expect(res.body).toEqual(deletedMeme);
+      });
   });
 });

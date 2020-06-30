@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongod = new MongoMemoryServer();
 const mongoose = require('mongoose');
 const connect = require('../lib/utils/connect');
-// const seed = require('./seed.js');
+const seed = require('./seed.js');
 
 const request = require('supertest');
 const app = require('../lib/app');
@@ -25,9 +25,9 @@ afterAll(async() => {
   return mongod.stop();
 });
 
-// beforeEach(() => {
-//   return seed();
-// });
+beforeEach(() => {
+  return seed();
+});
 
 const prepareOne = model => JSON.parse(JSON.stringify(model));
 const prepareMany = models => models.map(prepareOne);
