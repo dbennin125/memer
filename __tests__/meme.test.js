@@ -34,4 +34,27 @@ describe('memer routes', () => {
         expect(res.body).toEqual(memes);
       });
   });
+
+  it('gets a meme by ID via GET', async() => {
+    const meme = prepare(await Meme.findOne());
+    
+    return request(app)
+      .get(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        expect(res.body).toEqual(meme);
+      });
+  });
+
+  // it('updates a meme by ID via PATCH', async() => {
+  //   const meme = prepare(await Meme.findOne());
+    
+  //   return request(app)
+  //     .patch(`/api/v1/memes/${meme._id}`)
+  //     .send({ top: 'whatever' })
+  //     .then(res => {
+  //       expect(res.body).toEqual(meme);
+  //     });
+  // });
+
+
 });
