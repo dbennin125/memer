@@ -3,6 +3,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 
 const Meme = require('../lib/models/Meme');
+const { prepare } = require('../data-helper/data-helper');
 
 describe('memer routes', () => {
 
@@ -22,6 +23,15 @@ describe('memer routes', () => {
           bottom: 'bottom string'
         });
       });
+  });
 
+  it('gets all memes via GET', async() => {
+    const memes = prepare(await Meme.find());
+    
+    return request(app)
+      .get('/api/v1/memes')
+      .then(res => {
+        expect(res.body).toEqual(memes);
+      });
   });
 });
